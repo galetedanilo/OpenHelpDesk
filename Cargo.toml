@@ -1,0 +1,18 @@
+[package]
+name = "OpenHeldDesk"
+version = "0.1.0"
+authors = ["Danilo Fernandes Galete <galetedanilo@gmail.com>"]
+edition = "2021"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+path = "src/main.rs"
+name = "OpenHelpDesk"
+
+[dependencies]
+axum = "0.7.7"
+config = "0.14.1"
+serde = { version = "1.0.214", features = ["derive"] }
+tokio = { version = "1.41.0", features = ["full"] }
