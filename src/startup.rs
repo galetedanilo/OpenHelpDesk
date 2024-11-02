@@ -1,5 +1,5 @@
 use axum::{routing::get, Router};
-// startup.rs
+
 use crate::configuration::Settings;
 
 pub struct Application {}
