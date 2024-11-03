@@ -8,6 +8,7 @@ pub struct ApplicationSettings {
     pub host: String,
     pub port: u16,
     pub protocol: String,
+    pub version: String,
 }
 
 pub struct DatabaseSettings {}

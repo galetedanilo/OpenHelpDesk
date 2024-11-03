@@ -1,11 +1,11 @@
-use axum::{routing::get, Router};
+use axum::Router;
 
-use crate::configuration::Settings;
+use crate::{configuration::Settings, web::status::routes::status_routes};
 
 pub struct Application {}
 
 impl Application {
-    pub async fn build() {
+    pub async fn run() {
         let settings = Settings::init().expect("Failed to read configuration");
 
         let address = format!(
@@ -13,14 +13,14 @@ impl Application {
             settings.application.host, settings.application.port
         );
 
-        run(address).await;
+        let api_version = format!("/api/{}", settings.application.version);
+
+        let api_routes = Router::new().merge(status_routes());
+
+        let app = Router::new().nest(&api_version, api_routes);
+
+        let listener = tokio::net::TcpListener::bind(address).await.unwrap();
+
+        axum::serve(listener, app).await.unwrap();
     }
-}
-
-async fn run(address: String) {
-    let app = Router::new().route("/", get(|| async { "Hello word" }));
-
-    let listener = tokio::net::TcpListener::bind(address).await.unwrap();
-
-    axum::serve(listener, app).await.unwrap();
 }
